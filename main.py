@@ -1,5 +1,6 @@
 import telebot
 import os
+import db_managing.db_actions
 
 
 TOKEN = os.getenv('BOT_TOKEN')
