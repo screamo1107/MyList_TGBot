@@ -24,7 +24,7 @@ def create_table():
 
 def get_all_items():
     c = conn.cursor()
-    c.execute('''SELECT * FROM todolist''')
+    c.execute('''SELECT * FROM todolist WHERE id=:id''', {'id': 1})
     print(c.fetchall())
 
 
@@ -32,8 +32,11 @@ def add_item():
     conn = sqlite3.connect('todolist.db')
     c = conn.cursor()
     c.execute("INSERT INTO todolist VALUES ('123','321','132',True)")
+    c.execute("INSERT INTO todolist VALUES (?,?,?,?)", (a, b, c, d))
+    c.execute("INSERT INTO todolist VALUES (:col1)", {'col1': a})
     conn.commit()
-    c.close()
+    conn.close()
+
 
 
 # TBD
