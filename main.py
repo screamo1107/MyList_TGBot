@@ -1,6 +1,8 @@
 import telebot
 import os
-import db_managing.db_actions
+from list_item_handler import ListItem
+from db_actions import get_all_items
+from list_handler import get_all_list_items
 
 
 TOKEN = os.getenv('BOT_TOKEN')
@@ -12,20 +14,19 @@ todo_list = []  # Re-work to Store in DB
 
 @bot.message_handler(commands=['add'])
 def add_todo_item(message):
-    item = message.text[5:]
-    todo_list.append(item)
-    bot.send_message(message.chat.id, f'{item} item was added to your list!')
+    item = ListItem(message)
+    item.add_item_to_list()
+    bot.send_message(message.chat.id, 'Item was added to your list!')
     bot.send_sticker(message.chat.id, 'CAACAgIAAxkBAAIWV194sVRFrEXJh08_qKC4gW9tZZpnAAJGAANSiZEj-P7l5ArVCh0bBA')
-    # TBD: Add item handling
 
 
 @bot.message_handler(commands=['list'])
 def get_todo_list(message):
-    todo_list_print = str('n/'.join(todo_list))
     bot.send_message(message.chat.id, 'Here is your TODO list:')
-    bot.send_message(message.chat.id, todo_list_print)
+    list_to_print = get_all_list_items()
+    print(list_to_print)
+    bot.send_message(message.chat.id, list_to_print)
     bot.send_sticker(message.chat.id, 'CAACAgIAAxkBAAIWWV94sYnO0qGG3RGL1_ANXOOlB-TRAAJQAwACtXHaBsOq9o3QxaLKGwQ')
-    # TBD: Add list handling
 
 
 @bot.message_handler(commands=['delete'])

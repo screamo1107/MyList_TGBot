@@ -1,14 +1,13 @@
 TODO:
-1. Base class;
+1. Base class with actions;
 2. Add items to the list (store in DB / DB actions separately);
 3. Get the list (select from DB / actions separately);
 4. Remove item from the list (mark as Done / deprecated in DB - action separately);
--- Deploy to Heroku
+-- Deploy to Heroku?
 5. Re-order items (change priorities) - out of MVP;
 6. Auto-Greetings every day with the list + random sticker (from defined list - by ID) - out of MVP.
 
-
-
-Classes - List, Item
-Classe + actions (with db)
-DB actions
+Classes + actions (with db)
+DB actions + !Message former actions!
+CLose DB at the end of the session?
+Decide on directories / separate DB intercations
