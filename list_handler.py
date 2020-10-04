@@ -2,7 +2,7 @@ import db_actions
 
 
 def get_all_list_items():
-    lst1 = db_actions.get_all_items()
+    lst1 = db_actions.get_all_items_to_display()
     lst2 = [x[0] for x in lst1]
     formed_msg = "\n".join(lst2)
     return formed_msg

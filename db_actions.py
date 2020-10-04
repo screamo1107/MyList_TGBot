@@ -1,11 +1,14 @@
 import sqlite3
 
 
-# Create / re-create?
-conn = sqlite3.connect('todolist.db', check_same_thread=False)
+# TBD
+class ManageDbActions:
+    def __init__(self, db_table):
+        self.db_table = db_table
 
 
 def create_table() -> None:
+    conn = sqlite3.connect('todolist.db', check_same_thread=False)
     c = conn.cursor()
     c.execute('''CREATE TABLE todolist
                  (id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -17,15 +20,32 @@ def create_table() -> None:
     conn.close()
 
 
+# Returns all records from 'todolist' table
 def get_all_items() -> list:
+    conn = sqlite3.connect('todolist.db', check_same_thread=False)
     c = conn.cursor()
     c.execute('''SELECT message_text FROM todolist''')
     res = c.fetchall()
-    # conn.close()
+    conn.close()
     return res
 
 
+# Returns all records from 'todolist' table sorted in a way to shown for /list action
+def get_all_items_to_display() -> list:
+    conn = sqlite3.connect('todolist.db', check_same_thread=False)
+    c = conn.cursor()
+    c.execute('''SELECT message_text 
+                 FROM todolist 
+                 WHERE deprecated=0
+                 ORDER BY priority''')
+    res = c.fetchall()
+    conn.close()
+    return res
+
+
+# Adds a record to 'todolist' table
 def add_item(message_id: str, text: str, priority: str, deprecated: int) -> None:
+    conn = sqlite3.connect('todolist.db', check_same_thread=False)
     c = conn.cursor()
 
     # Re-work to autoincrement:
@@ -41,10 +61,12 @@ def add_item(message_id: str, text: str, priority: str, deprecated: int) -> None
     # c.execute("INSERT INTO todolist VALUES (:col1)", {'col1': a})
 
     conn.commit()
-    # conn.close()
+    conn.close()
 
 
+# Returns a record with specified id
 def get_item_by_id(item_id: str) -> tuple:
+    conn = sqlite3.connect('todolist.db', check_same_thread=False)
     c = conn.cursor()
     c.execute(f"SELECT * FROM todolist WHERE id={item_id}")  # Re-work to use ? ?
     res = c.fetchone()
@@ -52,13 +74,29 @@ def get_item_by_id(item_id: str) -> tuple:
     return res
 
 
-# TBD
-class ManageDbActions:
-    def __init__(self, db_table):
-        self.db_table = db_table
+# Returns all records that match 'priority' criteria
+def get_items_by_priority(items_pr: str):
+    conn = sqlite3.connect('todolist.db', check_same_thread=False)
+    c = conn.cursor()
+    c.execute(f"SELECT * FROM todolist WHERE priority='{items_pr}'")  # Re-work to use ? ?
+    res = c.fetchall
+    conn.close()
+    return res
 
 
-# create_table()
-# add_item('32312323', 'Te222xt', 'P3', 1)
-# print(get_all_items())
-# print(get_item_by_id('1'))
+# Updates 'deprecated' to 1 (True) for selected record
+def deprecate_list_item(item_id: str) -> None:
+    conn = sqlite3.connect('todolist.db', check_same_thread=False)
+    c = conn.cursor()
+    c.execute(f"UPDATE todolist SET deprecated=1 WHERE id={item_id}")  # Re-work to use ? ?
+    conn.commit()
+    conn.close()
+
+
+# Updates 'priority' to specified value for selected record
+def change_priority_list_item(item_id: str, item_pr: str) -> None:
+    conn = sqlite3.connect('todolist.db', check_same_thread=False)
+    c = conn.cursor()
+    c.execute(f"UPDATE todolist SET priority={item_pr} WHERE id={item_id}")  # Re-work to use ? ?
+    conn.commit()
+    conn.close()
