@@ -6,3 +6,9 @@ TODO:
 -- Deploy to Heroku
 5. Re-order items (change priorities) - out of MVP;
 6. Auto-Greetings every day with the list + random sticker (from defined list - by ID) - out of MVP.
+
+
+
+Classes - List, Item
+Classe + actions (with db)
+DB actions
