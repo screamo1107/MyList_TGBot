@@ -2,7 +2,7 @@ import sqlite3
 
 
 # Create / re-create?
-conn = sqlite3.connect('../todolist.db', check_same_thread=False)
+conn = sqlite3.connect('todolist.db', check_same_thread=False)
 
 
 def create_table() -> None:
@@ -35,7 +35,7 @@ def add_item(message_id: str, text: str, priority: str, deprecated: int) -> None
     item_id = 1 if last_id is None else last_id[0] + 1
 
     c.execute(f'''INSERT INTO todolist 
-                VALUES ({item_id},'{message_id}','{text}','{priority}',{deprecated})''')
+                VALUES ({item_id},'{message_id}','{text[5:]}','{priority}',{deprecated})''')
     # Re-work format to:
     # c.execute("INSERT INTO todolist VALUES (?,?,?,?)", (a, b, c, d))
     # c.execute("INSERT INTO todolist VALUES (:col1)", {'col1': a})
