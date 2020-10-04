@@ -11,3 +11,12 @@ Classes + actions (with db)
 DB actions + !Message former actions!
 CLose DB at the end of the session?
 Decide on directories / separate DB intercations
+
+==== DB actions ====:
+insert 1 item
+get item by id
+get items py priority
+get all items (sort by priority, deprecated==0)
+update deprecate
+update priority
+=== Update /help action ===
