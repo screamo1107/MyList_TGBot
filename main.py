@@ -1,8 +1,6 @@
 import telebot
 import os
-from list_item_handler import ListItem
-from db_actions import get_all_items
-from list_handler import get_all_list_items
+from message_former import ListItem, get_all_list_items
 
 
 TOKEN = os.getenv('BOT_TOKEN')
@@ -17,7 +15,7 @@ def add_todo_item(message):
     item = ListItem(message)
     item.add_item_to_list()
     bot.send_message(message.chat.id, 'Item was added to your list!')
-    bot.send_sticker(message.chat.id, 'CAACAgIAAxkBAAIWV194sVRFrEXJh08_qKC4gW9tZZpnAAJGAANSiZEj-P7l5ArVCh0bBA')
+    # bot.send_sticker(message.chat.id, 'CAACAgIAAxkBAAIWV194sVRFrEXJh08_qKC4gW9tZZpnAAJGAANSiZEj-P7l5ArVCh0bBA')
 
 
 @bot.message_handler(commands=['list'])
@@ -26,7 +24,7 @@ def get_todo_list(message):
     list_to_print = get_all_list_items()
     print(list_to_print)
     bot.send_message(message.chat.id, list_to_print)
-    bot.send_sticker(message.chat.id, 'CAACAgIAAxkBAAIWWV94sYnO0qGG3RGL1_ANXOOlB-TRAAJQAwACtXHaBsOq9o3QxaLKGwQ')
+    # bot.send_sticker(message.chat.id, 'CAACAgIAAxkBAAIWWV94sYnO0qGG3RGL1_ANXOOlB-TRAAJQAwACtXHaBsOq9o3QxaLKGwQ')
 
 
 @bot.message_handler(commands=['delete'])
