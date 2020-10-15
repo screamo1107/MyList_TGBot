@@ -11,6 +11,3 @@ Classes + actions (with db)
 DB actions + !Message former actions!
 CLose DB at the end of the session?
 Decide on directories / separate DB intercations
-
-
-=== Update /help action ===

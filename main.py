@@ -34,7 +34,12 @@ def delete_list_item(message):
 
 @bot.message_handler(commands=['help'])
 def show_help_message(message):
-    pass
+    bot.send_message(message.chat.id, """Available commands:
+                                         /list                          - Return your To-Do list
+                                         /add <item>                    - Add a new item to your To-Do list
+                                         /delete <item_id>              - Remove selected item from the list
+                                         /reorder <item1_id> <item2_id> - Swap the items in the list
+                                      """)
 
 
 @bot.message_handler(commands=['reorder'])
