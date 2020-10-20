@@ -58,10 +58,9 @@ def add_item(message_id: str, text: str, priority: str, deprecated: int) -> None
     print(last_id)
     item_id = 1 if last_id is None else last_id[0] + 1
 
-    c.execute(f'''INSERT INTO todolist 
-                  VALUES ({item_id},'{message_id}','{text[5:]}','{priority}',{deprecated})''')
+    c.execute('''INSERT INTO todolist 
+                  VALUES (?, ?, ?, ?, ?)''', (item_id, message_id, text, priority, deprecated))
     # Re-work format to:
-    # c.execute("INSERT INTO todolist VALUES (?,?,?,?)", (a, b, c, d))
     # c.execute("INSERT INTO todolist VALUES (:col1)", {'col1': a})
 
     conn.commit()
