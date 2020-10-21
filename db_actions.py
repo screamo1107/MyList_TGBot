@@ -23,8 +23,9 @@ def create_table():
 def get_all_items() -> list:
     conn = sqlite3.connect('todolist.db', check_same_thread=False)
     c = conn.cursor()
-    c.execute('''SELECT message_text 
-                 FROM todolist''')
+    c.execute('''SELECT ROWID, message_text, priority, deprecated
+                 FROM todolist
+                 ORDER BY priority''')
     res = c.fetchall()
     conn.close()
     return res

@@ -1,6 +1,6 @@
 import telebot
 import os
-from message_former import ListItem, get_all_list_items
+from message_former import ListItem, get_all_message_items, get_message_active_items
 
 
 TOKEN = os.getenv('BOT_TOKEN')
@@ -11,21 +11,30 @@ bot = telebot.TeleBot(TOKEN)
 def add_todo_item(message):
     item = ListItem(message)
     item.add_item_to_list()
-    bot.send_message(message.chat.id, 'Item was added to your list!')
+    bot.send_message(message.chat.id, "Item was added to your list!")
     # bot.send_sticker(message.chat.id, 'CAACAgIAAxkBAAIWV194sVRFrEXJh08_qKC4gW9tZZpnAAJGAANSiZEj-P7l5ArVCh0bBA')
 
 
-@bot.message_handler(commands=['delete'])
-def delete_list_item(message):
-    pass
+@bot.message_handler(commands=['deprecate'])
+def deprecate_list_item(message):
+    item = ListItem(message)
+    item.deprecate_item()
+    bot.send_message(message.chat.id, "Item was deprecated!\n"
+                                      "To see all items (including deprecated) use /flist command)")
+
+
+@bot.message_handler(commands=['/flist'])
+def get_full_list(message):
+    message_to_print = get_all_message_items()
+    print(message_to_print)
+    bot.send_message(message.chat.id, message_to_print)
+    # bot.send_sticker(message.chat.id, 'CAACAgIAAxkBAAIWWV94sYnO0qGG3RGL1_ANXOOlB-TRAAJQAwACtXHaBsOq9o3QxaLKGwQ')
 
 
 @bot.message_handler(commands=['list'])
 def get_todo_list(message):
-    bot.send_message(message.chat.id, 'Here is your TODO list:')
-    list_to_print = get_all_list_items()
-    print(list_to_print)
-    bot.send_message(message.chat.id, list_to_print)
+    message_to_print = get_message_active_items()
+    bot.send_message(message.chat.id, message_to_print)
     # bot.send_sticker(message.chat.id, 'CAACAgIAAxkBAAIWWV94sYnO0qGG3RGL1_ANXOOlB-TRAAJQAwACtXHaBsOq9o3QxaLKGwQ')
 
 
