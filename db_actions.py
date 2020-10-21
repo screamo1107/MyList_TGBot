@@ -7,12 +7,11 @@ class ManageDbActions:
         self.db_table = db_table
 
 
-def create_table() -> None:
+def create_table():
     conn = sqlite3.connect('todolist.db', check_same_thread=False)
     c = conn.cursor()
-    c.execute('''CREATE TABLE todolist
-                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                  message_id text NOT NULL, 
+    c.execute('''CREATE TABLE IF NOT EXISTS todolist
+                 (message_id text NOT NULL, 
                   message_text text NOT NULL, 
                   priority text NOT NULL, 
                   deprecated INTEGER NOT NULL)''')
@@ -35,7 +34,7 @@ def get_all_items() -> list:
 def get_all_items_to_display() -> list:
     conn = sqlite3.connect('todolist.db', check_same_thread=False)
     c = conn.cursor()
-    c.execute('''SELECT message_text 
+    c.execute('''SELECT ROWID, message_text, priority
                  FROM todolist 
                  WHERE deprecated=0
                  ORDER BY priority''')
@@ -45,21 +44,21 @@ def get_all_items_to_display() -> list:
 
 
 # Adds a record to 'todolist' table
-def add_item(message_id: str, text: str, priority: str, deprecated: int) -> None:
+def add_item(message_id: str, text: str, priority: str, deprecated: int):
     conn = sqlite3.connect('todolist.db', check_same_thread=False)
     c = conn.cursor()
 
     # Re-work to autoincrement:
-    c.execute('''SELECT id 
-                 FROM todolist 
-                 ORDER BY id 
-                 DESC LIMIT 1''')
-    last_id = c.fetchone()
-    print(last_id)
-    item_id = 1 if last_id is None else last_id[0] + 1
+    # c.execute('''SELECT id
+    #             FROM todolist
+    #             ORDER BY id
+    #             DESC LIMIT 1''')
+    # last_id = c.fetchone()
+    # print(last_id)
+    # item_id = 1 if last_id is None else last_id[0] + 1
 
     c.execute('''INSERT INTO todolist 
-                  VALUES (?, ?, ?, ?, ?)''', (item_id, message_id, text, priority, deprecated))
+                 VALUES (?, ?, ?, ?)''', (message_id, text, priority, deprecated))
     # Re-work format to:
     # c.execute("INSERT INTO todolist VALUES (:col1)", {'col1': a})
 

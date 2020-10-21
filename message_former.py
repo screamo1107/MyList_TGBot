@@ -2,7 +2,7 @@ import db_actions
 
 
 class ListItem:
-    def __init__(self, message, priority='P2', deprecated=False):
+    def __init__(self, message, priority='P2', deprecated=0):
         self.text = message.text  # TBD
         self.priority = priority
         self.message_id = message.message_id  # Get id from message
@@ -21,6 +21,6 @@ class ListItem:
 
 def get_all_list_items():
     lst1 = db_actions.get_all_items_to_display()
-    lst2 = [x[0] for x in lst1]
+    lst2 = [str(x[0]) + " " + str(x[1]) + " " + "(" + str(x[2]) + ")" for x in lst1]
     formed_msg = "\n".join(lst2)
     return formed_msg
